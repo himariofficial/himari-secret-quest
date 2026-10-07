@@ -1,157 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Himari Secret Puzzle</title>
+<title>Himari Quest 🌙</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Georgia, serif;
-  background: linear-gradient(135deg, #fff8fb, #f3edf8);
-  color: #514755;
+  font-family: Georgia, "Times New Roman", serif;
+  background: linear-gradient(135deg, #fff8f5, #f8eff8, #fffaf1);
+  color: #5d4654;
+  min-height: 100vh;
   text-align: center;
 }
 
 .container {
-  max-width: 500px;
+  width: 92%;
+  max-width: 520px;
   margin: auto;
-  padding: 35px 18px;
-}
-
-.card {
-  background: rgba(255,255,255,0.9);
-  border: 1px solid #eadfea;
-  border-radius: 25px;
-  padding: 28px 18px;
-  box-shadow: 0 8px 30px rgba(100,70,100,0.08);
+  padding: 35px 0 50px;
 }
 
 .moon {
-  font-size: 55px;
+  font-size: 45px;
+  margin-bottom: 5px;
 }
 
 h1 {
-  font-size: 29px;
-  margin: 8px 0;
+  font-size: 36px;
+  letter-spacing: 4px;
+  margin: 5px 0;
+  color: #806070;
+}
+
+.subtitle {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #806d79;
+  margin-bottom: 28px;
+}
+
+.card {
+  background: rgba(255,255,255,0.82);
+  border-radius: 25px;
+  padding: 25px 20px;
+  box-shadow: 0 8px 30px rgba(120,80,100,0.12);
+  border: 1px solid rgba(190,150,180,0.25);
 }
 
 h2 {
-  margin-bottom: 10px;
-}
-
-p {
-  line-height: 1.6;
-  color: #817585;
+  margin-top: 0;
+  color: #735565;
 }
 
 input {
-  width: 80%;
-  max-width: 280px;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #dfd1e1;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #d9c4d2;
+  border-radius: 15px;
   text-align: center;
   font-size: 17px;
-  text-transform: uppercase;
-  box-sizing: border-box;
+  outline: none;
+  margin: 10px 0;
+  color: #634d59;
 }
 
 button {
+  width: 100%;
   border: none;
-  border-radius: 14px;
-  padding: 14px 22px;
-  margin: 10px 5px;
-  background: #8c6b91;
-  color: white;
+  border-radius: 15px;
+  padding: 15px;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  background: linear-gradient(135deg, #cda9bd, #a9829e);
+  color: white;
+  margin-top: 8px;
 }
 
-button:hover {
-  opacity: 0.85;
-}
-
-.hidden {
-  display: none;
+button:active {
+  transform: scale(0.98);
 }
 
 .message {
   margin-top: 15px;
   min-height: 25px;
-}
-
-.collection {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 22px 0;
-}
-
-.piece {
-  aspect-ratio: 1;
-  border-radius: 15px;
-  border: 1px solid #dfd1e1;
-  background: #f7f0f7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-  position: relative;
-  overflow: hidden;
-}
-
-.piece.collected {
-  background: linear-gradient(135deg, #e8d8ed, #f8e7ee);
-}
-
-.piece.collected::after {
-  content: "✦";
-  position: absolute;
-  font-size: 12px;
-  top: 6px;
-  right: 8px;
-}
-
-.lock {
-  font-size: 24px;
-  opacity: 0.35;
+  font-size: 14px;
 }
 
 .progress {
-  font-size: 15px;
-  color: #817585;
+  margin: 20px 0;
+  font-size: 14px;
+  color: #856d7b;
 }
 
-.almost {
-  background: #faf2fa;
-  border: 1px dashed #b99fbb;
-  border-radius: 18px;
-  padding: 18px;
-  margin-top: 18px;
+/* THE 6 PIECES */
+.puzzle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  width: 100%;
+  margin: 20px auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(100,70,90,0.15);
+}
+
+.piece {
+  width: 100%;
+  display: block;
+  aspect-ratio: 1.5 / 1;
+  object-fit: cover;
+}
+
+.locked {
+  filter: grayscale(1);
+  opacity: 0.25;
+  background: #eee;
 }
 
 .reward {
-  background: linear-gradient(135deg, #f8eaf3, #eee4f5);
-  border: 1px solid #d9c4dc;
+  display: none;
+  margin-top: 25px;
+  padding: 22px;
   border-radius: 20px;
-  padding: 25px 15px;
-  margin-top: 20px;
+  background: linear-gradient(135deg, #fff6df, #fcebf4);
+  border: 1px solid #ead0dc;
+}
+
+.reward h2 {
+  color: #9a7187;
 }
 
 .gift {
-  font-size: 65px;
+  font-size: 45px;
   margin: 10px;
 }
 
-.reward-title {
-  font-size: 23px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.small {
-  font-size: 13px;
+.reset {
+  background: transparent;
+  color: #a48798;
+  font-size: 12px;
+  margin-top: 20px;
+  padding: 8px;
 }
 </style>
 </head>
@@ -159,284 +155,203 @@ button:hover {
 <body>
 
 <div class="container">
-<div class="card">
 
-<!-- WELCOME -->
+  <div class="moon">🌙</div>
 
-<div id="welcome">
+  <h1>HIMARI</h1>
 
-<div class="moon">🌙</div>
+  <p class="subtitle">
+    ✨ HIMARI QUEST ✨<br>
+    Collect all 6 pieces of the mysterious Himari logo.
+  </p>
 
-<h1>Himari Secret Puzzle</h1>
+  <div class="card">
 
-<p>
-Every Himari jar holds a little mystery... ✨
-<br><br>
-Collect the stickers and complete the secret puzzle
-to reveal your Himari gift.
-</p>
+    <h2>🧩 Collect Your Puzzle</h2>
 
-<button onclick="showCollection()">
-Start Collecting ✨
-</button>
+    <p>
+      Find a Himari Quest sticker in your jar,
+      then enter the secret code printed on it.
+    </p>
 
-</div>
+    <input
+      type="text"
+      id="codeInput"
+      placeholder="Enter your sticker code"
+      autocomplete="off"
+    >
 
+    <button onclick="addPiece()">
+      ✨ COLLECT PIECE
+    </button>
 
-<!-- COLLECTION -->
+    <div class="message" id="message"></div>
 
-<div id="collectionPage" class="hidden">
+    <div class="progress" id="progress">
+      0 / 6 pieces collected
+    </div>
 
-<div class="moon">🌙</div>
+    <div class="puzzle">
 
-<h2>Your Puzzle Collection</h2>
+      <img id="piece1"
+           class="piece locked"
+           src="Himari_Puzzle_Piece_1.png">
 
-<p class="progress" id="progress">
-0 of 6 stickers collected
-</p>
+      <img id="piece2"
+           class="piece locked"
+           src="Himari_Puzzle_Piece_2.png">
 
-<div class="collection">
+      <img id="piece3"
+           class="piece locked"
+           src="Himari_Puzzle_Piece_3.png">
 
-<div class="piece" id="M1">
-<span class="lock">🔒</span>
-</div>
+      <img id="piece4"
+           class="piece locked"
+           src="Himari_Puzzle_Piece_4.png">
 
-<div class="piece" id="M2">
-<span class="lock">🔒</span>
-</div>
+      <img id="piece5"
+           class="piece locked"
+           src="Himari_Puzzle_Piece_5.png">
 
-<div class="piece" id="M3">
-<span class="lock">🔒</span>
-</div>
+      <img id="piece6"
+           class="piece locked"
+           src="Himari_Puzzle_Piece_6.png">
 
-<div class="piece" id="M4">
-<span class="lock">🔒</span>
-</div>
+    </div>
 
-<div class="piece" id="M5">
-<span class="lock">🔒</span>
-</div>
+    <div class="reward" id="reward">
 
-<div class="piece" id="M6">
-<span class="lock">🔒</span>
-</div>
+      <div class="gift">🎁</div>
 
-</div>
+      <h2>🌙 THE HIMARI MYSTERY IS COMPLETE 🌙</h2>
 
-<p>
-Have you received a new sticker? 🌙
-</p>
+      <p>
+        ✨ You collected all 6 pieces!
+      </p>
 
-<input
-id="stickerCode"
-type="text"
-maxlength="2"
-placeholder="Enter code"
->
+      <p>
+        <strong>YOUR REWARD</strong>
+      </p>
 
-<br>
+      <p>
+        🎀 <strong>1 RANDOM HIMARI GIFT</strong> 🎀
+      </p>
 
-<button onclick="addSticker()">
-Add Sticker ✨
-</button>
+      <p>
+        A little surprise will be waiting
+        for you in your next Himari order. 💗
+      </p>
 
-<div class="message" id="message"></div>
+    </div>
 
-<div id="almost" class="almost hidden">
+    <button class="reset" onclick="resetQuest()">
+      Reset puzzle
+    </button>
 
-<strong>Almost there! ✨</strong>
-
-<p>
-Your puzzle isn't complete yet.
-<br>
-Keep collecting stickers to reveal your mystery gift! 🌙
-</p>
-
-<button onclick="clearMessage()">
-Try Again Next Time
-</button>
+  </div>
 
 </div>
-
-</div>
-
-
-<!-- COMPLETED -->
-
-<div id="completed" class="hidden">
-
-<div class="moon">✨</div>
-
-<h1>You Completed the Puzzle!</h1>
-
-<p>
-The missing pieces have finally come together...
-<br>
-Your Himari mystery gift has been revealed. 🌙
-</p>
-
-<div class="collection">
-
-<div class="piece collected">🌙</div>
-<div class="piece collected">⭐</div>
-<div class="piece collected">✨</div>
-<div class="piece collected">🎀</div>
-<div class="piece collected">💎</div>
-<div class="piece collected">🤍</div>
-
-</div>
-
-<div class="reward">
-
-<div class="gift">🎁</div>
-
-<div class="reward-title">
-1 RANDOM HIMARI GIFT
-</div>
-
-<p>
-You will receive <strong>ONE</strong> random Himari gift
-with your next order. ✨
-</p>
-
-<p>
-Your surprise may be a charm, random accessory,
-hair accessory, or stationery item.
-</p>
-
-<p class="small">
-The exact gift will remain a mystery until your order arrives. 🌙
-</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
 
 <script>
 
-const stickerCodes = ["M1","M2","M3","M4","M5","M6"];
+const codes = {
+  "HMR-7KQ": 1,
+  "HMR-4XP": 2,
+  "HMR-9LA": 3,
+  "HMR-2VN": 4,
+  "HMR-6CZ": 5,
+  "HMR-8TY": 6
+};
 
-let collected =
-JSON.parse(localStorage.getItem("himariStickers")) || [];
-
-function showCollection() {
-
-document.getElementById("welcome")
-.classList.add("hidden");
-
-document.getElementById("collectionPage")
-.classList.remove("hidden");
-
-updateCollection();
-
-}
-
-function updateCollection() {
-
-stickerCodes.forEach(function(code) {
-
-const piece = document.getElementById(code);
-
-if (collected.includes(code)) {
-
-piece.classList.add("collected");
-
-piece.innerHTML = "✨";
-
-} else {
-
-piece.classList.remove("collected");
-
-piece.innerHTML = '<span class="lock">🔒</span>';
-
-}
-
-});
-
-document.getElementById("progress").innerHTML =
-collected.length + " of 6 stickers collected";
-
-if (collected.length === 6) {
-
-document.getElementById("collectionPage")
-.classList.add("hidden");
-
-document.getElementById("completed")
-.classList.remove("hidden");
-
-}
-
-}
-
-function addSticker() {
-
-const input =
-document.getElementById("stickerCode");
-
-const code =
-input.value.trim().toUpperCase();
-
-const message =
-document.getElementById("message");
-
-const almost =
-document.getElementById("almost");
-
-almost.classList.add("hidden");
-
-if (!stickerCodes.includes(code)) {
-
-message.innerHTML =
-"That sticker code isn't valid. Please check your sticker and try again. 🌙";
-
-return;
-
-}
-
-if (collected.includes(code)) {
-
-message.innerHTML =
-"You already collected this sticker! ✨ Try another sticker next time.";
-
-return;
-
-}
-
-collected.push(code);
-
-localStorage.setItem(
-"himariStickers",
-JSON.stringify(collected)
+let collected = JSON.parse(
+  localStorage.getItem("himariStickers") || "[]"
 );
 
-message.innerHTML =
-"Sticker added! Your puzzle is getting closer. ✨";
+function updatePuzzle() {
 
-input.value = "";
+  for (let i = 1; i <= 6; i++) {
 
-updateCollection();
+    const piece = document.getElementById("piece" + i);
 
-if (collected.length < 6) {
+    if (collected.includes(i)) {
+      piece.classList.remove("locked");
+    } else {
+      piece.classList.add("locked");
+    }
+  }
 
-almost.classList.remove("hidden");
+  document.getElementById("progress").innerText =
+    collected.length + " / 6 pieces collected";
 
+  if (collected.length === 6) {
+    document.getElementById("reward").style.display = "block";
+  } else {
+    document.getElementById("reward").style.display = "none";
+  }
 }
 
+function addPiece() {
+
+  const input = document.getElementById("codeInput");
+  const message = document.getElementById("message");
+
+  const code = input.value.trim().toUpperCase();
+
+  if (!code) {
+    message.innerText = "🌙 Please enter your sticker code.";
+    return;
+  }
+
+  if (!codes[code]) {
+    message.innerText =
+      "💫 Hmm... that code isn't recognized. Check your sticker and try again.";
+    return;
+  }
+
+  const pieceNumber = codes[code];
+
+  if (collected.includes(pieceNumber)) {
+    message.innerText =
+      "✨ You already collected this puzzle piece!";
+    return;
+  }
+
+  collected.push(pieceNumber);
+
+  localStorage.setItem(
+    "himariStickers",
+    JSON.stringify(collected)
+  );
+
+  message.innerText =
+    "🌙 You found Puzzle Piece " + pieceNumber + "! ✨";
+
+  input.value = "";
+
+  updatePuzzle();
+
+  if (collected.length === 6) {
+    message.innerText =
+      "🎉 You collected all 6 pieces! The Himari mystery is complete!";
+  }
 }
 
-function clearMessage() {
+function resetQuest() {
 
-document.getElementById("almost")
-.classList.add("hidden");
+  if (confirm("Reset your Himari Quest progress?")) {
 
-document.getElementById("message")
-.innerHTML = "";
+    collected = [];
 
+    localStorage.removeItem("himariStickers");
+
+    document.getElementById("message").innerText =
+      "🌙 Your puzzle has been reset.";
+
+    updatePuzzle();
+  }
 }
+
+updatePuzzle();
 
 </script>
 
