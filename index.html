@@ -143,14 +143,41 @@ input:focus {
 }
 
 .quest-card.unlocked {
-  background: linear-gradient(145deg, #fffdf7, #f8edf4);
-  animation: reveal 0.6s ease;
+  background: linear-gradient(145deg, #fffdf8, #f8eaf3);
+  border-color: #c9a5bb;
+  box-shadow:
+    0 8px 20px rgba(160,120,145,0.18),
+    inset 0 0 20px rgba(255,255,255,0.7);
+  animation: reveal 0.7s ease;
 }
 
-.quest-card.unlocked::before {
-  content: "✧";
-  font-size: 34px;
-  color: #b58da6;
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.mystery-icon {
+  font-size: 30px;
+  color: #b18aa3;
+}
+
+.mystery-text {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #9a7c8c;
+}
+
+.quest-card.unlocked .mystery-icon {
+  color: #a77e97;
+  text-shadow: 0 0 10px rgba(190,145,175,0.5);
+}
+
+.quest-card.unlocked .mystery-text {
+  font-weight: bold;
+  letter-spacing: 1.5px;
 }
 
 .quest-card .number {
@@ -285,6 +312,56 @@ input:focus {
 
     <div class="quest-grid">
 
+  <div class="quest-card locked" id="card1">
+    <span class="number">01</span>
+    <div class="card-content">
+      <span class="mystery-icon">✦</span>
+      <span class="mystery-text">?</span>
+    </div>
+  </div>
+
+  <div class="quest-card locked" id="card2">
+    <span class="number">02</span>
+    <div class="card-content">
+      <span class="mystery-icon">✦</span>
+      <span class="mystery-text">?</span>
+    </div>
+  </div>
+
+  <div class="quest-card locked" id="card3">
+    <span class="number">03</span>
+    <div class="card-content">
+      <span class="mystery-icon">✦</span>
+      <span class="mystery-text">?</span>
+    </div>
+  </div>
+
+  <div class="quest-card locked" id="card4">
+    <span class="number">04</span>
+    <div class="card-content">
+      <span class="mystery-icon">✦</span>
+      <span class="mystery-text">?</span>
+    </div>
+  </div>
+
+  <div class="quest-card locked" id="card5">
+    <span class="number">05</span>
+    <div class="card-content">
+      <span class="mystery-icon">✦</span>
+      <span class="mystery-text">?</span>
+    </div>
+  </div>
+
+  <div class="quest-card locked" id="card6">
+    <span class="number">06</span>
+    <div class="card-content">
+      <span class="mystery-icon">✦</span>
+      <span class="mystery-text">?</span>
+    </div>
+  </div>
+
+    </div>
+
       <div class="quest-card locked" id="card1">
         <span class="number">01</span>
       </div>
@@ -379,10 +456,14 @@ function updateQuest() {
   for (let i = 1; i <= 6; i++) {
 
     const card = document.getElementById("card" + i);
+if (collected.includes(i)) {
+  card.classList.remove("locked");
+  card.classList.add("unlocked");
 
-    if (collected.includes(i)) {
-      card.classList.remove("locked");
-      card.classList.add("unlocked");
+  card.querySelector(".mystery-icon").innerText = "🌙";
+  card.querySelector(".mystery-text").innerText = "HIMARI";
+}
+    
     } else {
       card.classList.remove("unlocked");
       card.classList.add("locked");
