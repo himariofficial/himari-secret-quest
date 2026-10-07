@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himari Quest</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#704257;
+  --soft-ink:#81596c;
+  --rose:#b76f91;
+  --rose-dark:#a65d80;
+  --cream:#fff8f8;
+  --line:#d9b4c2;
+  --gold:#c58b55;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:"Cormorant Garamond",Georgia,serif;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(255,255,255,.95),transparent 24%),
+    radial-gradient(circle at 85% 12%,rgba(255,221,230,.8),transparent 26%),
+    linear-gradient(135deg,#f8e9eb 0%,#fff5f2 46%,#f0dce5 100%);
+  overflow-x:hidden;
+}
+
+body:before,
+body:after{
+  content:"";
+  position:fixed;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.28;
+  background-repeat:no-repeat;
+  background-size:contain;
+}
+body:before{
+  left:-10px;top:0;width:310px;height:380px;
+  background-image:url("himari_top_left.jpg");
+  background-position:left top;
+}
+body:after{
+  right:-10px;top:0;width:315px;height:380px;
+  background-image:url("himari_top_right.jpg");
+  background-position:right top;
+}
+
+.page{
+  width:min(930px,94vw);
+  margin:auto;
+  padding:22px 0 42px;
+}
+
+/* HEADER */
+.hero{
+  text-align:center;
+  padding:4px 18px 28px;
+  min-height:225px;
+  position:relative;
+}
+
+.hero .moon{
+  font-size:42px;
+  color:#c88d59;
+  line-height:1;
+  margin-bottom:-4px;
+  text-shadow:0 2px 8px rgba(190,130,85,.2);
+}
+
+.brand{
+  margin:0;
+  font-family:"Playfair Display",Georgia,serif;
+  font-weight:500;
+  letter-spacing:14px;
+  font-size:clamp(43px,7vw,67px);
+  color:#804d64;
+  text-shadow:0 1px 0 #fff;
+}
+
+.brand-rule{
+  width:155px;height:1px;
+  background:#a76b82;
+  margin:8px auto 9px;
+  position:relative;
+}
+.brand-rule:after{
+  content:"୨୧";
+  position:absolute;
+  left:50%;top:-12px;
+  transform:translateX(-50%);
+  background:transparent;
+  color:#a76b82;
+  font-size:18px;
+}
+
+.tagline{
+  margin:13px 0 2px;
+  font-size:22px;
+  line-height:1.05;
+}
+.subtagline{
+  margin:0;
+  font-size:20px;
+  line-height:1.05;
+}
+
+/* MAIN CARD */
+.quest{
+  background:rgba(255,249,249,.95);
+  border:1.2px solid rgba(177,125,145,.72);
+  border-radius:35px;
+  padding:23px 35px 34px;
+  box-shadow:
+    0 20px 45px rgba(107,62,83,.14),
+    0 3px 0 rgba(255,255,255,.85) inset;
+}
+
+.quest-heading{
+  text-align:center;
+}
+.quest-heading h1{
+  margin:0;
+  font-family:"Playfair Display",Georgia,serif;
+  font-weight:500;
+  font-size:39px;
+  line-height:1.05;
+}
+.puzzle{
+  display:inline-block;
+  font-size:35px;
+  margin-right:7px;
+  transform:translateY(2px);
+}
+.instructions{
+  text-align:center;
+  max-width:720px;
+  margin:8px auto 21px;
+  font-size:20px;
+  line-height:1.16;
+}
+
+/* FORM */
+.input{
+  width:100%;
+  height:59px;
+  border:1px solid #cda8b7;
+  border-radius:32px;
+  background:rgba(255,255,255,.48);
+  outline:none;
+  text-align:center;
+  font:400 21px "Cormorant Garamond",Georgia,serif;
+  color:var(--ink);
+}
+.input::placeholder{color:#b08a9d}
+.input:focus{
+  box-shadow:0 0 0 3px rgba(183,111,145,.12);
+}
+
+.button{
+  width:100%;
+  height:66px;
+  margin-top:12px;
+  border:1px solid #d9b1c1;
+  border-radius:34px;
+  background:linear-gradient(90deg,#b86f91,#c782a2,#b86f91);
+  color:white;
+  cursor:pointer;
+  font:500 22px "Cormorant Garamond",Georgia,serif;
+  letter-spacing:2px;
+  box-shadow:0 7px 17px rgba(130,72,101,.17),inset 0 1px 4px rgba(255,255,255,.35);
+  transition:.2s;
+}
+.button:hover{transform:translateY(-2px)}
+.button:active{transform:translateY(0)}
+
+.message{
+  min-height:22px;
+  text-align:center;
+  font-size:17px;
+  margin:9px 0 0;
+}
+
+/* TREASURES */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+  margin-top:10px;
+}
+
+.card{
+  position:relative;
+  aspect-ratio:1 / 1.03;
+  overflow:hidden;
+  border-radius:24px;
+  border:1px solid #d5afbd;
+  background:#f3dfe6;
+  box-shadow:0 7px 16px rgba(111,66,85,.12);
+  isolation:isolate;
+}
+.card img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.45s ease;
+}
+.card.locked img{
+  filter:blur(7px) saturate(.72) brightness(1.08);
+  transform:scale(1.08);
+}
+.card.locked:after{
+  content:"✦   ?   ✦";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,rgba(255,228,237,.34),rgba(121,69,97,.28));
+  color:#fff;
+  font:500 30px "Playfair Display",Georgia,serif;
+  text-shadow:0 2px 8px rgba(87,42,63,.32);
+  z-index:2;
+}
+.number{
+  position:absolute;
+  z-index:4;
+  top:8px;left:13px;
+  font-size:23px;
+  text-shadow:0 1px 3px rgba(255,255,255,.9);
+}
+.spark{
+  position:absolute;
+  z-index:4;
+  color:#fff;
+  text-shadow:0 1px 4px #a96d83;
+  font-size:15px;
+}
+.s1{top:17px;right:14px}
+.s2{bottom:48px;left:12px}
+.s3{bottom:49px;right:14px}
+.label{
+  position:absolute;
+  z-index:5;
+  left:0;right:0;bottom:0;
+  height:43px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,232,239,.93);
+  border-top:1px solid rgba(255,255,255,.85);
+  font:500 18px "Playfair Display",Georgia,serif;
+  letter-spacing:4px;
+}
+.progress{
+  text-align:center;
+  margin:20px 0 24px;
+  font:400 22px "Playfair Display",Georgia,serif;
+  letter-spacing:2px;
+}
+
+/* COMPLETION */
+.complete{
+  display:none;
+  position:relative;
+  overflow:hidden;
+  min-height:315px;
+  border-radius:29px;
+  border:1px solid rgba(255,255,255,.95);
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,248,247,.7)),
+    url("himari_completion_left.jpg") left center/54% 100% no-repeat,
+    linear-gradient(110deg,#e7cfd7,#f8e8e8);
+  box-shadow:0 13px 35px rgba(109,65,85,.14);
+}
+.complete.show{display:block;animation:rise .65s ease}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.complete-copy{
+  width:50%;
+  margin-left:50%;
+  padding:33px 30px 25px;
+  text-align:center;
+}
+.complete-moon{font-size:30px;color:#c68b57}
+.complete h2{
+  margin:3px 0 9px;
+  font:500 clamp(28px,4vw,38px)/1.08 "Playfair Display",Georgia,serif;
+  letter-spacing:5px;
+}
+.complete-rule{
+  width:105px;height:1px;
+  background:#a86d83;
+  margin:11px auto 14px;
+}
+.complete-copy p{
+  margin:0;
+  font-size:19px;
+  line-height:1.2;
+}
+.reward{
+  margin-top:18px;
+  padding:12px 15px;
+  border-radius:22px;
+  border:1px solid rgba(205,157,173,.62);
+  background:rgba(255,246,247,.82);
+}
+.reward-top{
+  font-size:17px;
+  letter-spacing:2px;
+}
+.reward-main{
+  margin-top:2px;
+  font:500 20px "Playfair Display",Georgia,serif;
+  letter-spacing:2px;
+}
+
+/* RESET */
+.reset{
+  text-align:center;
+  margin-top:20px;
+}
+.reset button{
+  border:0;background:none;
+  color:#7d5067;
+  font:400 18px "Cormorant Garamond",Georgia,serif;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:700px){
+  .page{width:95vw;padding-top:12px}
+  .hero{min-height:205px;padding-bottom:20px}
+  .brand{letter-spacing:8px;font-size:42px}
+  .tagline{font-size:19px}
+  .subtagline{font-size:17px}
+  .quest{padding:20px 14px 27px;border-radius:27px}
+  .quest-heading h1{font-size:30px}
+  .instructions{font-size:17px}
+  .grid{gap:9px}
+  .card{border-radius:15px}
+  .number{font-size:17px;top:6px;left:8px}
+  .label{height:34px;font-size:11px;letter-spacing:2px}
+  .s2,.s3{bottom:39px}
+  .progress{font-size:18px;margin:18px 0 21px}
+  .complete{
+    min-height:450px;
+    background:
+      linear-gradient(to bottom,rgba(255,248,248,.18),rgba(255,248,248,.78)),
+      url("himari_completion_left.jpg") center bottom/100% auto no-repeat,
+      linear-gradient(110deg,#e7cfd7,#f8e8e8);
+  }
+  .complete-copy{
+    width:100%;
+    margin:0;
+    padding:27px 15px 18px;
+    background:linear-gradient(rgba(255,246,247,.88),rgba(255,246,247,.52));
+  }
+  .complete h2{font-size:27px;letter-spacing:3px}
+  .complete-copy p{font-size:18px}
+  .reward{margin-top:13px}
+}
+
+@media(max-width:390px){
+  .grid{gap:7px}
+  .label{font-size:9px}
+  .quest-heading h1{font-size:27px}
+  .button{font-size:19px}
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="moon">☾</div>
+    <h1 class="brand">HIMARI</h1>
+    <div class="brand-rule"></div>
+    <p class="tagline">A little mystery is waiting for you ✨</p>
+    <p class="subtagline">Collect all six treasures to reveal it.</p>
+  </header>
+
+  <main class="quest">
+
+    <div class="quest-heading">
+      <h1><span class="puzzle">🧩</span>Himari Quest</h1>
+      <p class="instructions">
+        Find a Himari Quest sticker inside your jar. Enter the secret code<br>
+        printed on your sticker to unlock a mystery treasure.
+      </p>
+    </div>
+
+    <input id="code" class="input" placeholder="Enter your sticker code" autocomplete="off">
+    <button class="button" onclick="reveal()">✨ &nbsp; REVEAL MY TREASURE</button>
+    <div id="message" class="message"></div>
+
+    <section class="grid">
+
+      <article class="card locked" id="card1">
+        <span class="number">01</span><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+        <img src="Himari_Treasure_01_Luna.jpg" alt="Luna">
+        <div class="label">LUNA</div>
+      </article>
+
+      <article class="card locked" id="card2">
+        <span class="number">02</span><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+        <img src="Himari_Treasure_02_Star.jpg" alt="Star">
+        <div class="label">STAR</div>
+      </article>
+
+      <article class="card locked" id="card3">
+        <span class="number">03</span><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+        <img src="Himari_Treasure_03_Ribbon.jpg" alt="Ribbon">
+        <div class="label">RIBBON</div>
+      </article>
+
+      <article class="card locked" id="card4">
+        <span class="number">04</span><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+        <img src="Himari_Treasure_04_Gem.jpg" alt="Gem">
+        <div class="label">GEM</div>
+      </article>
+
+      <article class="card locked" id="card5">
+        <span class="number">05</span><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+        <img src="Himari_Treasure_05_Blossom.jpg" alt="Blossom">
+        <div class="label">BLOSSOM</div>
+      </article>
+
+      <article class="card locked" id="card6">
+        <span class="number">06</span><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+        <img src="Himari_Treasure_06_Butterfly.jpg" alt="Butterfly">
+        <div class="label">BUTTERFLY</div>
+      </article>
+
+    </section>
+
+    <div id="progress" class="progress">0 / 6 treasures revealed</div>
+
+    <section id="complete" class="complete">
+      <div class="complete-copy">
+        <div class="complete-moon">☾ ✦</div>
+        <h2>THE HIMARI MYSTERY<br>IS COMPLETE</h2>
+        <div class="complete-rule"></div>
+        <p>
+          You collected all six treasures!<br>
+          A little surprise will be waiting for you<br>
+          in your next Himari order. ♡
+        </p>
+
+        <div class="reward">
+          <div class="reward-top">🎁 &nbsp; YOUR REWARD</div>
+          <div class="reward-main">1 RANDOM HIMARI GIFT</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="reset">
+      <button onclick="resetQuest()">↻ &nbsp; Reset Quest</button>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const codes = {
+  "HMR-7KQ":1,
+  "HMR-4XP":2,
+  "HMR-9LA":3,
+  "HMR-2VN":4,
+  "HMR-6CZ":5,
+  "HMR-8TY":6
+};
+
+const KEY = "himariQuestLayoutV2";
+let found = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+function show(n){
+  document.getElementById("card"+n).classList.remove("locked");
+}
+
+function update(){
+  document.getElementById("progress").textContent =
+    found.length + " / 6 treasures revealed";
+
+  if(found.length === 6){
+    document.getElementById("complete").classList.add("show");
+  }
+}
+
+function reveal(){
+  const input = document.getElementById("code");
+  const message = document.getElementById("message");
+  const value = input.value.trim().toUpperCase();
+
+  if(!value){
+    message.textContent = "Please enter your sticker code ✨";
+    return;
+  }
+
+  const n = codes[value];
+
+  if(!n){
+    message.textContent = "That code isn't recognized. Please check your sticker. 🌙";
+    return;
+  }
+
+  if(found.includes(n)){
+    message.textContent = "You already discovered this treasure! ✨";
+    input.value = "";
+    return;
+  }
+
+  found.push(n);
+  found.sort((a,b)=>a-b);
+  localStorage.setItem(KEY, JSON.stringify(found));
+
+  show(n);
+  update();
+
+  message.textContent =
+    found.length === 6
+      ? "🌙 You found all six treasures!"
+      : "✨ Treasure unlocked!";
+
+  input.value = "";
+
+  if(found.length === 6){
+    setTimeout(()=>{
+      document.getElementById("complete").scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+    },350);
+  }
+}
+
+document.getElementById("code").addEventListener("keydown", e=>{
+  if(e.key === "Enter") reveal();
+});
+
+function resetQuest(){
+  if(!confirm("Reset your Himari Quest and lock all treasures again?")) return;
+
+  found = [];
+  localStorage.removeItem(KEY);
+
+  for(let i=1;i<=6;i++){
+    document.getElementById("card"+i).classList.add("locked");
+  }
+
+  document.getElementById("complete").classList.remove("show");
+  document.getElementById("message").textContent = "";
+  update();
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+found.forEach(show);
+update();
+</script>
+</body>
+</html>
