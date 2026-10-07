@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himari Secret Puzzle</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: linear-gradient(135deg, #fff8fb, #f3edf8);
+  color: #514755;
+  text-align: center;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 35px 18px;
+}
+
+.card {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #eadfea;
+  border-radius: 25px;
+  padding: 28px 18px;
+  box-shadow: 0 8px 30px rgba(100,70,100,0.08);
+}
+
+.moon {
+  font-size: 55px;
+}
+
+h1 {
+  font-size: 29px;
+  margin: 8px 0;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.6;
+  color: #817585;
+}
+
+input {
+  width: 80%;
+  max-width: 280px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #dfd1e1;
+  text-align: center;
+  font-size: 17px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 22px;
+  margin: 10px 5px;
+  background: #8c6b91;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.hidden {
+  display: none;
+}
+
+.message {
+  margin-top: 15px;
+  min-height: 25px;
+}
+
+.collection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.piece {
+  aspect-ratio: 1;
+  border-radius: 15px;
+  border: 1px solid #dfd1e1;
+  background: #f7f0f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.piece.collected {
+  background: linear-gradient(135deg, #e8d8ed, #f8e7ee);
+}
+
+.piece.collected::after {
+  content: "✦";
+  position: absolute;
+  font-size: 12px;
+  top: 6px;
+  right: 8px;
+}
+
+.lock {
+  font-size: 24px;
+  opacity: 0.35;
+}
+
+.progress {
+  font-size: 15px;
+  color: #817585;
+}
+
+.almost {
+  background: #faf2fa;
+  border: 1px dashed #b99fbb;
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 18px;
+}
+
+.reward {
+  background: linear-gradient(135deg, #f8eaf3, #eee4f5);
+  border: 1px solid #d9c4dc;
+  border-radius: 20px;
+  padding: 25px 15px;
+  margin-top: 20px;
+}
+
+.gift {
+  font-size: 65px;
+  margin: 10px;
+}
+
+.reward-title {
+  font-size: 23px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.small {
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<!-- WELCOME -->
+
+<div id="welcome">
+
+<div class="moon">🌙</div>
+
+<h1>Himari Secret Puzzle</h1>
+
+<p>
+Every Himari jar holds a little mystery... ✨
+<br><br>
+Collect the stickers and complete the secret puzzle
+to reveal your Himari gift.
+</p>
+
+<button onclick="showCollection()">
+Start Collecting ✨
+</button>
+
+</div>
+
+
+<!-- COLLECTION -->
+
+<div id="collectionPage" class="hidden">
+
+<div class="moon">🌙</div>
+
+<h2>Your Puzzle Collection</h2>
+
+<p class="progress" id="progress">
+0 of 6 stickers collected
+</p>
+
+<div class="collection">
+
+<div class="piece" id="M1">
+<span class="lock">🔒</span>
+</div>
+
+<div class="piece" id="M2">
+<span class="lock">🔒</span>
+</div>
+
+<div class="piece" id="M3">
+<span class="lock">🔒</span>
+</div>
+
+<div class="piece" id="M4">
+<span class="lock">🔒</span>
+</div>
+
+<div class="piece" id="M5">
+<span class="lock">🔒</span>
+</div>
+
+<div class="piece" id="M6">
+<span class="lock">🔒</span>
+</div>
+
+</div>
+
+<p>
+Have you received a new sticker? 🌙
+</p>
+
+<input
+id="stickerCode"
+type="text"
+maxlength="2"
+placeholder="Enter code"
+>
+
+<br>
+
+<button onclick="addSticker()">
+Add Sticker ✨
+</button>
+
+<div class="message" id="message"></div>
+
+<div id="almost" class="almost hidden">
+
+<strong>Almost there! ✨</strong>
+
+<p>
+Your puzzle isn't complete yet.
+<br>
+Keep collecting stickers to reveal your mystery gift! 🌙
+</p>
+
+<button onclick="clearMessage()">
+Try Again Next Time
+</button>
+
+</div>
+
+</div>
+
+
+<!-- COMPLETED -->
+
+<div id="completed" class="hidden">
+
+<div class="moon">✨</div>
+
+<h1>You Completed the Puzzle!</h1>
+
+<p>
+The missing pieces have finally come together...
+<br>
+Your Himari mystery gift has been revealed. 🌙
+</p>
+
+<div class="collection">
+
+<div class="piece collected">🌙</div>
+<div class="piece collected">⭐</div>
+<div class="piece collected">✨</div>
+<div class="piece collected">🎀</div>
+<div class="piece collected">💎</div>
+<div class="piece collected">🤍</div>
+
+</div>
+
+<div class="reward">
+
+<div class="gift">🎁</div>
+
+<div class="reward-title">
+1 RANDOM HIMARI GIFT
+</div>
+
+<p>
+You will receive <strong>ONE</strong> random Himari gift
+with your next order. ✨
+</p>
+
+<p>
+Your surprise may be a charm, random accessory,
+hair accessory, or stationery item.
+</p>
+
+<p class="small">
+The exact gift will remain a mystery until your order arrives. 🌙
+</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+const stickerCodes = ["M1","M2","M3","M4","M5","M6"];
+
+let collected =
+JSON.parse(localStorage.getItem("himariStickers")) || [];
+
+function showCollection() {
+
+document.getElementById("welcome")
+.classList.add("hidden");
+
+document.getElementById("collectionPage")
+.classList.remove("hidden");
+
+updateCollection();
+
+}
+
+function updateCollection() {
+
+stickerCodes.forEach(function(code) {
+
+const piece = document.getElementById(code);
+
+if (collected.includes(code)) {
+
+piece.classList.add("collected");
+
+piece.innerHTML = "✨";
+
+} else {
+
+piece.classList.remove("collected");
+
+piece.innerHTML = '<span class="lock">🔒</span>';
+
+}
+
+});
+
+document.getElementById("progress").innerHTML =
+collected.length + " of 6 stickers collected";
+
+if (collected.length === 6) {
+
+document.getElementById("collectionPage")
+.classList.add("hidden");
+
+document.getElementById("completed")
+.classList.remove("hidden");
+
+}
+
+}
+
+function addSticker() {
+
+const input =
+document.getElementById("stickerCode");
+
+const code =
+input.value.trim().toUpperCase();
+
+const message =
+document.getElementById("message");
+
+const almost =
+document.getElementById("almost");
+
+almost.classList.add("hidden");
+
+if (!stickerCodes.includes(code)) {
+
+message.innerHTML =
+"That sticker code isn't valid. Please check your sticker and try again. 🌙";
+
+return;
+
+}
+
+if (collected.includes(code)) {
+
+message.innerHTML =
+"You already collected this sticker! ✨ Try another sticker next time.";
+
+return;
+
+}
+
+collected.push(code);
+
+localStorage.setItem(
+"himariStickers",
+JSON.stringify(collected)
+);
+
+message.innerHTML =
+"Sticker added! Your puzzle is getting closer. ✨";
+
+input.value = "";
+
+updateCollection();
+
+if (collected.length < 6) {
+
+almost.classList.remove("hidden");
+
+}
+
+}
+
+function clearMessage() {
+
+document.getElementById("almost")
+.classList.add("hidden");
+
+document.getElementById("message")
+.innerHTML = "";
+
+}
+
+</script>
+
+</body>
+</html>
