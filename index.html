@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himari Secret Quest</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: linear-gradient(135deg, #fff8fb, #f5eff8);
+  color: #514755;
+  text-align: center;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 45px 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid #eadfea;
+  border-radius: 25px;
+  padding: 30px 20px;
+  box-shadow: 0 8px 30px rgba(100,70,100,0.08);
+}
+
+.moon {
+  font-size: 60px;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+p {
+  line-height: 1.6;
+  color: #817585;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 22px;
+  margin: 8px;
+  background: #8c6b91;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.choice {
+  display: block;
+  width: 90%;
+  max-width: 300px;
+  margin: 12px auto;
+  background: white;
+  color: #514755;
+  border: 1px solid #dfd1e1;
+}
+
+.reward {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 18px;
+  background: #faf2fa;
+  border: 1px dashed #b99fbb;
+}
+
+.code {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<!-- WELCOME -->
+
+<div id="welcome">
+
+<div class="moon">🌙</div>
+
+<h1>Himari Secret Quest</h1>
+
+<p>
+Every little jar holds a mystery...
+but yours holds a secret. ✨
+</p>
+
+<button onclick="startGame()">
+Begin the Quest ✨
+</button>
+
+</div>
+
+
+<!-- GAME -->
+
+<div id="game" class="hidden">
+
+<div class="moon">🌙</div>
+
+<h2>The Missing Star ⭐</h2>
+
+<p>
+A little star has disappeared.
+<br>
+Which symbol appears only once?
+</p>
+
+<button class="choice" onclick="wrong()">
+🌙 Moon
+</button>
+
+<button class="choice" onclick="correct()">
+⭐ Star
+</button>
+
+<button class="choice" onclick="wrong()">
+✨ Sparkle
+</button>
+
+<p id="message"></p>
+
+</div>
+
+
+<!-- REWARD -->
+
+<div id="reward" class="hidden">
+
+<div class="moon">⭐</div>
+
+<h1>You Found the Star!</h1>
+
+<p>
+The mystery has been solved...
+and Himari has a little gift for you. 🎁
+</p>
+
+<div class="reward">
+
+<strong>YOUR SECRET REWARD</strong>
+
+<h2>₱20 OFF YOUR NEXT ORDER</h2>
+
+<p>Your secret code:</p>
+
+<div class="code">
+HM-STAR-482
+</div>
+
+<p>
+Save this code and show it when you place
+your next Himari order. 🌙
+</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+function startGame() {
+document.getElementById("welcome").classList.add("hidden");
+document.getElementById("game").classList.remove("hidden");
+}
+
+function wrong() {
+document.getElementById("message").innerHTML =
+"Not quite! ✨ Look carefully and try again.";
+}
+
+function correct() {
+document.getElementById("game").classList.add("hidden");
+document.getElementById("reward").classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
